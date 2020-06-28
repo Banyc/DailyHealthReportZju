@@ -1,0 +1,7 @@
+.vscode
+geoIndex.txt
+*.exe
+userData/
+bin/
+obj/
+*.log
