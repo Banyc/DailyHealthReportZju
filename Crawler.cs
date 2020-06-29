@@ -114,7 +114,10 @@ namespace DailyHealthReportZju
         {
             foreach ((string preText, string keyword) in keyWords)
             {
-                string xpath = $"//*/text()[contains(.,'{preText}')]/following::div[contains(.,'{keyword}') and not(div)]";
+                // bug: found but not checkbox not checked
+                // string xpath = $"//*/text()[contains(.,'{preText}')]/following::div[contains(.,'{keyword}') and not(div)]";
+                // workaround
+                string xpath = $"//*/text()[contains(.,'{preText}')]/following::span[contains(.,'{keyword}') and not(span)]";
                 try
                 {
                     IWebElement check = driver.FindElement(By.XPath(xpath));
