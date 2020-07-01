@@ -16,46 +16,12 @@ namespace DailyHealthReportZju
 
         public void Start()
         {
-            string filename = "geoIndex.txt";
             SemaphoreSlim videoStableSignal = new SemaphoreSlim(0, 1);
 
             // Console.WriteLine("[Info] This program could only handle one video once.");
             // Console.WriteLine("[Info] It won't automatically go to the next video.");
             // Console.WriteLine("[Info] It won't refresh the website when video is not playing either.");
             Console.WriteLine("[Info] [Disclaimer] We (as the creator of this tool) has NO responsibility for any damages you suffer as a result of using our products or services");
-            string inputStr;
-            if (File.Exists(filename))
-            {
-                // read indexes
-                using (FileStream fs = File.OpenRead(filename))
-                {
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        inputStr = sr.ReadLine();
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("[Instruction] Input your geo location indexes here (ex. \"0 2 3\")");
-                Console.WriteLine("[Instruction] Explanation: those indexes are respectively your province/city/region");
-                Console.WriteLine("[Instruction] Explanation: \"1 1 2\" represents Beijing/Beijing/Xicheng");
-                Console.Write("> ");
-                inputStr = Console.ReadLine();
-                // save indexes
-                using (File.Create(filename)){}
-                using (FileStream fs = File.OpenWrite(filename))
-                {
-                    using (StreamWriter sw = new StreamWriter(fs))
-                    {
-                        sw.WriteLine(inputStr);
-                    }
-                }
-            }
-            string[] locationIndexesStr = inputStr.Split();
-            List<int> locationIndexes = new List<int>();
-            foreach (var indexStr in locationIndexesStr)
-                locationIndexes.Add(int.Parse(indexStr));
 
             string url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
 
@@ -81,7 +47,7 @@ namespace DailyHealthReportZju
             CheckAllOptions(driver, keyWords);
 
             // select gep position
-            SetGeo(driver, locationIndexes);
+            SetGeo(driver);
 
             if (GlobalSettings.IsFullAutoMode)
             {
@@ -131,39 +97,89 @@ namespace DailyHealthReportZju
             }
         }
 
-        private void SetGeo(IWebDriver driver, List<int> locationIndexes)
+        private List<int> GetGeoInfo()
+        {
+            string filename = "geoIndex.txt";
+            string inputStr;
+            if (File.Exists(filename))
+            {
+                // read indexes
+                using (FileStream fs = File.OpenRead(filename))
+                {
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        inputStr = sr.ReadLine();
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("[Instruction] Input your geo location indexes here (ex. \"0 2 3\")");
+                Console.WriteLine("[Instruction] Explanation: those indexes are respectively your province/city/region");
+                Console.WriteLine("[Instruction] Explanation: \"1 1 2\" represents Beijing/Beijing/Xicheng");
+                Console.Write("> ");
+                inputStr = Console.ReadLine();
+                // save indexes
+                using (File.Create(filename)){}
+                using (FileStream fs = File.OpenWrite(filename))
+                {
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        sw.WriteLine(inputStr);
+                    }
+                }
+            }
+            string[] locationIndexesStr = inputStr.Split();
+            List<int> locationIndexes = new List<int>();
+            foreach (var indexStr in locationIndexesStr)
+                locationIndexes.Add(int.Parse(indexStr));
+            return locationIndexes;
+        }
+        
+        private void SetGeo(IWebDriver driver)
         {
             string selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(22) > div > input[type=text]";
             IWebElement check = driver.FindElement(By.CssSelector(selector));
             check.Click();
-            // click affirmative btn
-            selector = "#wapat > div > div.wapat-btn-box > div";
-            IWebElement affirm = driver.FindElement(By.CssSelector(selector));
-            affirm.Click();
-            // expand options list
-            selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-danger";
-            IWebElement provinceRoot = driver.FindElement(By.CssSelector(selector));
-            provinceRoot.Click();
-            // select province
-            selector = $"body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-danger > option:nth-child({locationIndexes[0]})";
-            IWebElement province = driver.FindElement(By.CssSelector(selector));
-            province.Click();
-            // select options list
-            selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-warning";
-            IWebElement cityRoot = driver.FindElement(By.CssSelector(selector));
-            cityRoot.Click();
-            // select city
-            selector = $"body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-warning > option:nth-child({locationIndexes[1]})";
-            IWebElement city = driver.FindElement(By.CssSelector(selector));
-            city.Click();
-            // select options list
-            selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-primary";
-            IWebElement localRoot = driver.FindElement(By.CssSelector(selector));
-            localRoot.Click();
-            // select local
-            selector = $"body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-primary > option:nth-child({locationIndexes[2]})";
-            IWebElement local = driver.FindElement(By.CssSelector(selector));
-            local.Click();
+            try
+            {
+                // click affirmative btn
+                selector = "#wapat > div > div.wapat-btn-box > div";
+                IWebElement affirm = driver.FindElement(By.CssSelector(selector));
+                affirm.Click();
+
+                // get geo info
+                List<int> locationIndexes = GetGeoInfo();
+
+                // expand options list
+                selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-danger";
+                IWebElement provinceRoot = driver.FindElement(By.CssSelector(selector));
+                provinceRoot.Click();
+                // select province
+                selector = $"body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-danger > option:nth-child({locationIndexes[0]})";
+                IWebElement province = driver.FindElement(By.CssSelector(selector));
+                province.Click();
+                // select options list
+                selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-warning";
+                IWebElement cityRoot = driver.FindElement(By.CssSelector(selector));
+                cityRoot.Click();
+                // select city
+                selector = $"body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-warning > option:nth-child({locationIndexes[1]})";
+                IWebElement city = driver.FindElement(By.CssSelector(selector));
+                city.Click();
+                // select options list
+                selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-primary";
+                IWebElement localRoot = driver.FindElement(By.CssSelector(selector));
+                localRoot.Click();
+                // select local
+                selector = $"body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(23) > div > div > select.hcqbtn.hcqbtn-primary > option:nth-child({locationIndexes[2]})";
+                IWebElement local = driver.FindElement(By.CssSelector(selector));
+                local.Click();
+            }
+            catch (NoSuchElementException ex)
+            {
+                Console.WriteLine("[Info] Geometry seems to be succeeded");
+            }
         }
 
         private void Submit(IWebDriver driver)
