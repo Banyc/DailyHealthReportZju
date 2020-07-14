@@ -120,7 +120,7 @@ namespace DailyHealthReportZju
                 Console.Write("> ");
                 inputStr = Console.ReadLine();
                 // save indexes
-                using (File.Create(filename)){}
+                using (File.Create(filename)) { }
                 using (FileStream fs = File.OpenWrite(filename))
                 {
                     using (StreamWriter sw = new StreamWriter(fs))
@@ -135,7 +135,7 @@ namespace DailyHealthReportZju
                 locationIndexes.Add(int.Parse(indexStr));
             return locationIndexes;
         }
-        
+
         private void SetGeo(IWebDriver driver)
         {
             string selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(22) > div > input[type=text]";
@@ -176,7 +176,7 @@ namespace DailyHealthReportZju
                 IWebElement local = driver.FindElement(By.CssSelector(selector));
                 local.Click();
             }
-            catch (NoSuchElementException ex)
+            catch (NoSuchElementException)
             {
                 Console.WriteLine("[Info] Geometry seems to be succeeded");
             }
@@ -200,11 +200,59 @@ namespace DailyHealthReportZju
 
             ChromeOptions options = new ChromeOptions();
             // specify location for profile creation/ access
-            options.AddArguments(@"user-data-dir=./userData");
+            options.AddArguments("--user-data-dir=./userData");
+            // options.AddArguments("--headless");
+            options.AddArguments("--window-size=1,200");
+            options.AddArguments("--disable-extensions");
+            // options.AddAdditionalCapability("pageLoadStrategy", "none");
             IWebDriver driver = new ChromeDriver(".", options);
             // tolaration before an element is available for detection
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
-            driver.Navigate().GoToUrl(url);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(3);
+
+            bool isLoadedSuccessful = false;
+            while (!isLoadedSuccessful || driver.Url != url)
+            {
+                try
+                {
+                    driver.Navigate().GoToUrl(url);
+                }
+                catch (WebDriverException)
+                {
+                    // progress even if the page is not fully loaded
+                }
+
+                try
+                {
+                    driver.FindElement(By.TagName("body"));
+                    isLoadedSuccessful = true;
+                }
+                catch (NoSuchElementException)
+                {
+
+                }
+            }
+
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            // while (driver.Url != url)
+            // {
+            //     driver.Navigate().Refresh();
+            // }
+
+            // bool isSuccessful = false;
+            // do
+            // {
+            //     try
+            //     {
+            //         driver.Navigate().GoToUrl(url);
+            //         isSuccessful = true;
+            //     }
+            //     catch (WebDriverException)
+            //     {
+            //         Console.WriteLine("[Warning] Timeout for 60s. Trying again.");
+            //     }
+            // } while (!isSuccessful);
+
             return driver;
         }
     }
