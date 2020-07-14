@@ -211,7 +211,7 @@ namespace DailyHealthReportZju
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(3);
 
             bool isLoadedSuccessful = false;
-            while (!isLoadedSuccessful || driver.Url != url)
+            while (!isLoadedSuccessful)
             {
                 try
                 {
