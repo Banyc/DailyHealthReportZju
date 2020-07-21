@@ -207,8 +207,8 @@ namespace DailyHealthReportZju
             // options.AddAdditionalCapability("pageLoadStrategy", "none");
             IWebDriver driver = new ChromeDriver(".", options);
             // tolaration before an element is available for detection
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
 
             bool isLoadedSuccessful = false;
             while (!isLoadedSuccessful)
@@ -234,24 +234,6 @@ namespace DailyHealthReportZju
             }
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            // while (driver.Url != url)
-            // {
-            //     driver.Navigate().Refresh();
-            // }
-
-            // bool isSuccessful = false;
-            // do
-            // {
-            //     try
-            //     {
-            //         driver.Navigate().GoToUrl(url);
-            //         isSuccessful = true;
-            //     }
-            //     catch (WebDriverException)
-            //     {
-            //         Console.WriteLine("[Warning] Timeout for 60s. Trying again.");
-            //     }
-            // } while (!isSuccessful);
 
             return driver;
         }
