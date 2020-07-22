@@ -233,7 +233,7 @@ namespace DailyHealthReportZju
                 }
             }
 
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
 
             return driver;
         }
