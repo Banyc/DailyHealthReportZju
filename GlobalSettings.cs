@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 
 namespace DailyHealthReportZju
@@ -42,7 +43,7 @@ namespace DailyHealthReportZju
             keywords.Add(("是否已经申领校区所在地健康码", "是"));
             keywords.Add(("今日申领校区所在地健康码的颜色", "绿码"));
             keywords.Add(("今日是否在校", "否"));
-            keywords.Add(("你是否5月30日后从下列地区返回浙江", "否"));
+            keywords.Add(("你是否从以下地区返回浙江", "否"));
             keywords.Add(("本人家庭成员(包括其他密切接触人员)是否有近14日入境或近14日拟入境的情况", "否"));
             // bug: found but not checkbox not checked when clicking div
             keywords.Add(("", "上述信息真实准确"));
