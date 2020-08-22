@@ -1,13 +1,15 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 
-namespace DailyHealthReportZju
+namespace DailyHealthReportZju.Services
 {
     // only works on <https://healthreport.zju.edu.cn/ncov/wap/default/index>
     public class HealthReportZju
@@ -16,19 +18,17 @@ namespace DailyHealthReportZju
 
         public void Start()
         {
-            SemaphoreSlim videoStableSignal = new SemaphoreSlim(0, 1);
+            // SemaphoreSlim videoStableSignal = new SemaphoreSlim(0, 1);
 
             // Console.WriteLine("[Info] This program could only handle one video once.");
             // Console.WriteLine("[Info] It won't automatically go to the next video.");
             // Console.WriteLine("[Info] It won't refresh the website when video is not playing either.");
             Console.WriteLine("[Info] [Disclaimer] We (as the creator of this tool) has NO responsibility for any damages you suffer as a result of using our products or services");
 
-            string url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
-
             IWebDriver driver;
             try
             {
-                driver = GetDriver(url);
+                driver = GetDriver(GlobalSettings.Url);
                 // driver.Manage().Window.Minimize();  // This will disable the whole auto process
             }
             catch (Exception)
@@ -138,6 +138,10 @@ namespace DailyHealthReportZju
 
         private void SetGeo(IWebDriver driver)
         {
+            if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            }
             string selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(22) > div > input[type=text]";
             IWebElement check = driver.FindElement(By.CssSelector(selector));
             check.Click();
@@ -180,6 +184,13 @@ namespace DailyHealthReportZju
             {
                 Console.WriteLine("[Info] Geometry seems to be succeeded");
             }
+            finally
+            {
+                if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+                {
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(GlobalSettings.ElementDiscoveryTimeoutInSeconds);
+                }
+            }
         }
 
         private void Submit(IWebDriver driver)
@@ -196,19 +207,58 @@ namespace DailyHealthReportZju
 
         private IWebDriver GetDriver(string url)
         {
-            // options.AddArguments(@"user-data-dir=%userprofile%\AppData\Local\Google\Chrome\User Data\NAMEYOUCHOOSE");
+            IWebDriver driver = null;
+            switch (GlobalSettings.DriverTypes)
+            {
+                case DriverTypes.Chrome:
+                    // options.AddArguments(@"user-data-dir=%userprofile%\AppData\Local\Google\Chrome\User Data\NAMEYOUCHOOSE");
 
-            ChromeOptions options = new ChromeOptions();
-            // specify location for profile creation/ access
-            options.AddArguments("--user-data-dir=./userData");
-            // options.AddArguments("--headless");
-            options.AddArguments("--window-size=1,200");
-            options.AddArguments("--disable-extensions");
-            // options.AddAdditionalCapability("pageLoadStrategy", "none");
-            IWebDriver driver = new ChromeDriver(".", options);
+                    ChromeOptions options = new ChromeOptions();
+                    // specify location for profile creation/ access
+                    options.AddArguments("--user-data-dir=./userData.chrome");
+                    // options.AddArguments("--headless");
+                    options.AddArguments("--window-size=1,200");
+                    options.AddArguments("--disable-extensions");
+                    options.AddArguments("--disable-geolocation");
+
+                    // options.AddAdditionalCapability("pageLoadStrategy", "none");
+                    driver = new ChromeDriver(".", options);
+                    break;
+                case DriverTypes.Firefox:
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    // firefoxOptions.AddArguments("--headless");
+                    // firefoxOptions.AddArguments("--start-maximized");
+                    // firefoxOptions.AddArguments("--window-size=1920,1080");
+                    // firefoxOptions.AddArguments("-width=1920");
+                    // firefoxOptions.AddArguments("-height=1080");
+
+                    // FirefoxProfile profile = new FirefoxProfile(@"./profile.firefox");
+                    // ProfilesIni allProfiles = new ProfilesIni();
+                    // FirefoxProfile desiredProfile = allProfiles.getProfile("SELENIUM");
+                    // var profileManager = new FirefoxProfileManager();
+                    // FirefoxProfile profile = profileManager.GetProfile("SeleniumUser");
+
+                    // var allProfiles = new FirefoxProfileManager();
+                    // if (!allProfiles.ExistingProfiles.Contains("SeleniumUser"))
+                    // {
+                    //     throw new Exception("SeleniumUser firefox profile does not exist, please create it first.");
+                    // }
+                    // var profile = allProfiles.GetProfile("SeleniumUser");
+                    // profile.SetPreference("webdriver.firefox.profile", "SeleniumUser");
+
+                    // firefoxOptions.Profile = profile;
+
+                    driver = new FirefoxDriver(".", firefoxOptions);
+                    break;
+                default:
+                    break;
+            }
             // tolaration before an element is available for detection
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
+            if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(GlobalSettings.InitiationTimeoutInSeconds);
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(GlobalSettings.InitiationTimeoutInSeconds);
+            }
 
             bool isLoadedSuccessful = false;
             while (!isLoadedSuccessful)
@@ -232,8 +282,10 @@ namespace DailyHealthReportZju
 
                 }
             }
-
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(GlobalSettings.ElementDiscoveryTimeoutInSeconds);
+            }
 
             return driver;
         }

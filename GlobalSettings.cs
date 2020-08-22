@@ -3,36 +3,23 @@ using System.Collections.Generic;
 
 namespace DailyHealthReportZju
 {
+    public enum DriverTypes
+    {
+        Chrome,
+        // not working
+        Firefox
+    }
+
     public static class GlobalSettings
     {
-        public static bool IsFullAutoMode = true;
-
-        // init selector paths
-        public static List<string> GetSelectors()
-        {
-            List<string> selectors = new List<string>();
-            // absent due to fever? -> No
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(4) > div > div > div:nth-child(2)");
-            // absent anyway? -> No
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(5) > div > div > div:nth-child(2)");
-            // have not do the test
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(14) > div > div > div:nth-child(2)");
-            // has collected health code
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(16) > div > div > div:nth-child(1)");
-            // health code is green code
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(17) > div > div > div:nth-child(1)");
-            // not in school
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(18) > div > div > div:nth-child(2)");
-            // have not pass through any pandamic zone
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(24) > div > div > div:nth-child(5)");
-            // no bad family member
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(25) > div > div > div:nth-child(2)");
-
-            // promise
-            selectors.Add("body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.form > ul > li:nth-child(37) > div > div > div");
-
-            return selectors;
-        }
+        public static bool IsFullAutoMode { get; } = true;
+        // Do NOT try Firefox that is not currently working.
+        public static DriverTypes DriverTypes { get; } = DriverTypes.Chrome;
+        public static string FirefoxBrowserPath { get; } = "";
+        public static string Url { get; } = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
+        // public static int InitiationTimeoutInSeconds { get; } = 5;
+        public static int InitiationTimeoutInSeconds { get; } = 60;
+        public static int ElementDiscoveryTimeoutInSeconds { get; } = 20;
 
         public static List<(string, string)> GetKeyWords()
         {

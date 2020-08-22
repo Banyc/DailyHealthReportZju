@@ -1,7 +1,7 @@
 .vscode
 geoIndex*.txt
 *.exe
-userData/
+userData*/
 bin/
 obj/
 *.log
