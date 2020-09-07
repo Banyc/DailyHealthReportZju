@@ -42,6 +42,12 @@ namespace DailyHealthReportZju.Services
 
                     // options.AddAdditionalCapability("pageLoadStrategy", "none");
                     driver = new ChromeDriver(".", options);
+
+                    // hide the browser window
+                    if (_config.IsFullAutoMode && !_config.IsHeadless)
+                    {
+                        driver.Manage().Window.Position = new System.Drawing.Point(-10000, 0);
+                    }
                     break;
                 case DriverTypes.Firefox:
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
