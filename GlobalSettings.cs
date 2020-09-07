@@ -6,8 +6,8 @@ namespace DailyHealthReportZju
     public enum DriverTypes
     {
         Chrome,
-        // not working
-        Firefox
+        // not tested
+        Firefox,
     }
 
     public static class GlobalSettings
@@ -17,9 +17,10 @@ namespace DailyHealthReportZju
         public static DriverTypes DriverTypes { get; } = DriverTypes.Chrome;
         public static string FirefoxBrowserPath { get; } = "";
         public static string Url { get; } = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
-        // public static int InitiationTimeoutInSeconds { get; } = 5;
         public static int InitiationTimeoutInSeconds { get; } = 60;
         public static int ElementDiscoveryTimeoutInSeconds { get; } = 20;
+        public static string Username { get; } = "";
+        public static string Password { get; } = "";
 
         public static List<(string, string)> GetKeyWords()
         {
