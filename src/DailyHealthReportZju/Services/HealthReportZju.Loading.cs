@@ -28,6 +28,8 @@ namespace DailyHealthReportZju.Services
                         options.AddArguments("--headless");
                         options.AddArguments("start-maximized");
                         options.AddArguments("--disable-gpu");
+                        options.AddArguments("--no-sandbox");
+                        // options.AcceptInsecureCertificates = true;
                     }
                     else
                     {

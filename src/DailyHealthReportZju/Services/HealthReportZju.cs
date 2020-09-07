@@ -31,12 +31,7 @@ namespace DailyHealthReportZju.Services
 
         public void Start()
         {
-            // SemaphoreSlim videoStableSignal = new SemaphoreSlim(0, 1);
-
-            // Console.WriteLine("[Info] This program could only handle one video once.");
-            // Console.WriteLine("[Info] It won't automatically go to the next video.");
-            // Console.WriteLine("[Info] It won't refresh the website when video is not playing either.");
-            Console.WriteLine("[Info] [Disclaimer] We (as the creator of this tool) has NO responsibility for any damages you suffer as a result of using our products or services");
+            _logger.LogWarning("[Disclaimer] We (as the creator of this tool) has NO responsibility for any damages you suffer as a result of using our products or services");
 
             IWebDriver driver;
             try
@@ -46,9 +41,9 @@ namespace DailyHealthReportZju.Services
             }
             catch (Exception)
             {
-                Console.WriteLine("[ERROR] Please close the previous chrome popup then restart this program.");
-                Console.WriteLine("[ERROR] If problem persists, download chromedriver of corresponding version (link below) and replace the old one.");
-                Console.WriteLine("[ERROR] <https://chromedriver.chromium.org/downloads>");
+                _logger.LogError("Please close the previous chrome popup then restart this program.");
+                _logger.LogError("If problem persists, download chromedriver of corresponding version (link below) and replace the old one.");
+                _logger.LogError("<https://chromedriver.chromium.org/downloads>");
                 return;
             }
 
@@ -77,7 +72,7 @@ namespace DailyHealthReportZju.Services
                 Submit(driver);
 
                 // process about to exit
-                Console.WriteLine("[Info] End of the the function `Start`");
+                _logger.LogInformation("[Info] Done.");
                 driver.Quit();
             }
         }
