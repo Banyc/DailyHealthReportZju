@@ -11,15 +11,18 @@ YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 ## Build
 
 ```shell
+cd src/DailyHealthReportZju
 dotnet restore
 dotnet run
 ```
 
 If this is the first time you run, please follow the instruction in "Customize" Section below. Do NOT set field `IsFullAutoMode` to be true.
 
-After that, login with your account.
+After that:
 
-Then, close the browser and run the program again.
+- login with your account.
+    - Then, close the browser and run the program again.
+- OR set your username and password in `GlobalSettings`
 
 And then please follow the instruction in console to complete your geometric information.
 
