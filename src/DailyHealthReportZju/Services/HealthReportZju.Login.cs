@@ -14,17 +14,17 @@ namespace DailyHealthReportZju.Services
     // only works on <https://healthreport.zju.edu.cn/ncov/wap/default/index>
     public partial class HealthReportZju
     {
-        private string _usernameSelector = "#username";
-        private string _passwordSelector = "#password";
-        private string _rememberMeSelector = "#fm1 > div.login-info.row > div.col-lg-3.col-md-3.col-sm-3.col-xs-4.remember-me > label";
-        private string _submitSelector = "#dl";
+        private readonly string _usernameSelector = "#username";
+        private readonly string _passwordSelector = "#password";
+        private readonly string _rememberMeSelector = "#fm1 > div.login-info.row > div.col-lg-3.col-md-3.col-sm-3.col-xs-4.remember-me > label";
+        private readonly string _submitSelector = "#dl";
 
         private void OpenIdLogin(IWebDriver driver)
         {
             var usernameControl = driver.FindElement(By.CssSelector(_usernameSelector));
-            usernameControl.SendKeys(GlobalSettings.Username);
+            usernameControl.SendKeys(_config.Username);
             var passwordControl = driver.FindElement(By.CssSelector(_passwordSelector));
-            passwordControl.SendKeys(GlobalSettings.Password);
+            passwordControl.SendKeys(_config.Password);
             var rememberMeControl = driver.FindElement(By.CssSelector(_rememberMeSelector));
             rememberMeControl.Click();
             var submitControl = driver.FindElement(By.CssSelector(_submitSelector));

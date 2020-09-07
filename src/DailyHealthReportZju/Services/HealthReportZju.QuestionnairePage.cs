@@ -30,14 +30,14 @@ namespace DailyHealthReportZju.Services
                 }
             }
         }
-        private void CheckAllOptions(IWebDriver driver, List<(string, string)> keyWords)
+        private void CheckAllOptions(IWebDriver driver, List<KeyValuePairString> keyWords)
         {
-            foreach ((string preText, string keyword) in keyWords)
+            foreach (KeyValuePairString keyValuePair in keyWords)
             {
-                // bug: found but not checkbox not checked
-                // string xpath = $"//*/text()[contains(.,'{preText}')]/following::div[contains(.,'{keyword}') and not(div)]";
+                // bug: checkbox found but not checked when clicking div
+                // string xpath = $"//*/text()[contains(.,'{keyValuePair.Key}')]/following::div[contains(.,'{keyValuePair.Value}') and not(div)]";
                 // workaround
-                string xpath = $"//*/text()[contains(.,'{preText}')]/following::span[contains(.,'{keyword}') and not(span)]";
+                string xpath = $"//*/text()[contains(.,'{keyValuePair.Key}')]/following::span[contains(.,'{keyValuePair.Value}') and not(span)]";
                 try
                 {
                     IWebElement check = driver.FindElement(By.XPath(xpath));
@@ -92,7 +92,7 @@ namespace DailyHealthReportZju.Services
 
         private void SetGeo(IWebDriver driver)
         {
-            if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+            if (_config.DriverTypes == DriverTypes.Chrome)
             {
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             }
@@ -140,9 +140,9 @@ namespace DailyHealthReportZju.Services
             }
             finally
             {
-                if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+                if (_config.DriverTypes == DriverTypes.Chrome)
                 {
-                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(GlobalSettings.ElementDiscoveryTimeoutInSeconds);
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_config.ElementDiscoveryTimeoutInSeconds);
                 }
             }
         }

@@ -8,17 +8,25 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using DailyHealthReportZju.Models;
+using Microsoft.Extensions.Logging;
+using DailyHealthReportZju.Helpers;
+using Microsoft.Extensions.Options;
 
 namespace DailyHealthReportZju.Services
 {
     // only works on <https://healthreport.zju.edu.cn/ncov/wap/default/index>
     public partial class HealthReportZju
     {
-        private readonly Helpers.ChangeDetector<string> _changeDetector = new Helpers.ChangeDetector<string>();
+        private readonly ChangeDetector<string> _changeDetector = new Helpers.ChangeDetector<string>();
+        private readonly ILogger<HealthReportZju> _logger;
+        private readonly HealthReportZjuSettings _config;
 
-        public HealthReportZju()
+        public HealthReportZju(ILogger<HealthReportZju> logger,
+            IOptions<HealthReportZjuSettings> config)
         {
-
+            _logger = logger;
+            _config = config.Value;
         }
 
         public void Start()
@@ -33,7 +41,7 @@ namespace DailyHealthReportZju.Services
             IWebDriver driver;
             try
             {
-                driver = GetDriver(GlobalSettings.Url);
+                driver = GetDriver(_config.Url);
                 // driver.Manage().Window.Minimize();  // This will disable the whole auto process
             }
             catch (Exception)
@@ -44,8 +52,7 @@ namespace DailyHealthReportZju.Services
                 return;
             }
 
-            // List<string> selectors = GlobalSettings.GetSelectors();
-            List<(string, string)> keyWords = GlobalSettings.GetKeyWords();
+            List<KeyValuePairString> keyWords = _config.KeyWords;
 
             // check if loginned
             try
@@ -64,7 +71,7 @@ namespace DailyHealthReportZju.Services
             // select gep position
             SetGeo(driver);
 
-            if (GlobalSettings.IsFullAutoMode)
+            if (_config.IsFullAutoMode)
             {
                 // submit
                 Submit(driver);

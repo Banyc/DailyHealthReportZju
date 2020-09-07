@@ -22,15 +22,15 @@ After that:
 
 - login with your account.
     - Then, close the browser and run the program again.
-- OR set your username and password in `GlobalSettings`
+- OR set your username and password in file `appsettings`
 
 And then please follow the instruction in console to complete your geometric information.
 
 ## Customize
 
-1. Go to `GlobalSettings` and set field `IsFullAutoMode` to be false;
-1. Go to `GlobalSettings.GetKeyWords()` and check every item;
+1. Go to file `appsettings` and set field `IsFullAutoMode` to be false;
+1. check every item in that file;
 1. Run the program and check if everything goes as expected;
-1. If you want a full automation, go to `GlobalSettings` and set field `IsFullAutoMode` to be true;
+1. If you want a full automation, go to `appsettings` and set field `IsFullAutoMode` to be true;
 
 ## TODO

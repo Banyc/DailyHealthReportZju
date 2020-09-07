@@ -17,18 +17,24 @@ namespace DailyHealthReportZju.Services
         private IWebDriver GetDriver(string url)
         {
             IWebDriver driver = null;
-            switch (GlobalSettings.DriverTypes)
+            switch (_config.DriverTypes)
             {
                 case DriverTypes.Chrome:
                     // options.AddArguments(@"user-data-dir=%userprofile%\AppData\Local\Google\Chrome\User Data\NAMEYOUCHOOSE");
 
                     ChromeOptions options = new ChromeOptions();
-                    // specify location for profile creation/ access
-                    options.AddArguments("--user-data-dir=./userData.chrome");
-                    // options.AddArguments("--headless");
-                    // options.AddArguments("start-maximized");
-                    // options.AddArguments("--disable-gpu");
-                    options.AddArguments("--window-size=1,200");
+                    if (_config.IsHeadless)
+                    {
+                        options.AddArguments("--headless");
+                        options.AddArguments("start-maximized");
+                        options.AddArguments("--disable-gpu");
+                    }
+                    else
+                    {
+                        // specify location for profile creation/ access
+                        options.AddArguments("--user-data-dir=./userData.chrome");
+                        options.AddArguments("--window-size=1,200");
+                    }
                     options.AddArguments("--disable-extensions");
                     options.AddArguments("--disable-geolocation");
 
@@ -65,10 +71,10 @@ namespace DailyHealthReportZju.Services
                     break;
             }
             // tolaration before an element is available for detection
-            if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+            if (_config.DriverTypes == DriverTypes.Chrome)
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(GlobalSettings.InitiationTimeoutInSeconds);
-                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(GlobalSettings.InitiationTimeoutInSeconds);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_config.InitiationTimeoutInSeconds);
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(_config.InitiationTimeoutInSeconds);
             }
 
             bool isLoadedSuccessful = false;
@@ -93,9 +99,9 @@ namespace DailyHealthReportZju.Services
 
                 }
             }
-            if (GlobalSettings.DriverTypes == DriverTypes.Chrome)
+            if (_config.DriverTypes == DriverTypes.Chrome)
             {
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(GlobalSettings.ElementDiscoveryTimeoutInSeconds);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_config.ElementDiscoveryTimeoutInSeconds);
             }
 
             return driver;
