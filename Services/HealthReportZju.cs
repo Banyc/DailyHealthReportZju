@@ -217,6 +217,8 @@ namespace DailyHealthReportZju.Services
                     // specify location for profile creation/ access
                     options.AddArguments("--user-data-dir=./userData.chrome");
                     // options.AddArguments("--headless");
+                    // options.AddArguments("start-maximized");
+                    // options.AddArguments("--disable-gpu");
                     options.AddArguments("--window-size=1,200");
                     options.AddArguments("--disable-extensions");
                     options.AddArguments("--disable-geolocation");
