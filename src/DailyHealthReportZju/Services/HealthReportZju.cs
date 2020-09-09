@@ -42,8 +42,11 @@ namespace DailyHealthReportZju.Services
             catch (Exception)
             {
                 _logger.LogError("Please close the previous chrome popup then restart this program.");
-                _logger.LogError("If problem persists, download chromedriver of corresponding version (link below) and replace the old one.");
-                _logger.LogError("<https://chromedriver.chromium.org/downloads>");
+                _logger.LogError("If problem persists:");
+                _logger.LogError("  1. check if chrome is about to update;");
+                _logger.LogError("  2. update it.");
+                _logger.LogError("If problem still persists, download chromedriver of corresponding version (link below) and replace the old one.");
+                _logger.LogError("  <https://chromedriver.chromium.org/downloads>");
                 return;
             }
 
