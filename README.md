@@ -8,13 +8,26 @@ We (as the creator of this tool) has NO responsibility for any damages you suffe
 
 YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 
-## Build
+## Prerequisite
 
-```shell
-cd src/DailyHealthReportZju
-dotnet restore
-dotnet run
-```
+- [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+- [Chrome](https://www.google.com/intl/en-us/chrome/)
+- The [Chrome driver](https://chromedriver.chromium.org/downloads) that matches the version of Chrome
+
+## Run
+
+1. Download and install (except the Chrome driver) those prerequisites above;
+1. Customize the configuration file [appsettings](./src/DailyHealthReportZju/appsettings.json);
+1. Start a command line promote at the root of the project and type in the following lines:
+
+    ```shell
+    cd src/DailyHealthReportZju
+    dotnet restore
+    dotnet run
+
+    ```
+
+### Caution
 
 If this is the first time you run, please follow the instruction in "Customize" Section below. Do NOT set field `IsFullAutoMode` to be true.
 
