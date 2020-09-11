@@ -41,19 +41,25 @@ namespace DailyHealthReportZju.Services
                 try
                 {
                     IWebElement check = driver.FindElement(By.XPath(xpath));
-                    check.Click();
+                    if (check.Displayed)
+                    {
+                        check.Click();
+                    }
                 }
                 catch (StaleElementReferenceException)
                 {
                     IWebElement check = driver.FindElement(By.XPath(xpath));
-                    check.Click();
+                    if (check.Displayed)
+                    {
+                        check.Click();
+                    }
                 }
             }
         }
 
         private List<int> GetGeoInfo()
         {
-            string filename = "geoIndex.txt";
+            const string filename = "geoIndex.txt";
             string inputStr;
             if (File.Exists(filename))
             {
