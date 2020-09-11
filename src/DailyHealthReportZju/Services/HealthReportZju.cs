@@ -47,7 +47,9 @@ namespace DailyHealthReportZju.Services
                         1. check if chrome is about to update;
                         2. update it.
                     If problem still persists, download chromedriver of corresponding version (link below) and replace the old one.
-                        <https://chromedriver.chromium.org/downloads>";
+                        <https://chromedriver.chromium.org/downloads>
+                    If problem still persists, reboot the computer.
+                ";
                 _logger.LogError(errorMessage);
                 Task.Delay(TimeSpan.FromSeconds(5)).Wait();
                 return;
