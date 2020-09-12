@@ -10,7 +10,7 @@ YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 
 ## Prerequisite
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+- [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1) to run C# code in three main platform
 - [Chrome](https://www.google.com/intl/en-us/chrome/)
 - The [Chrome driver](https://chromedriver.chromium.org/downloads) that matches the version of Chrome
 
