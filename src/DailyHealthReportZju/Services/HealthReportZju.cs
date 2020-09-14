@@ -39,10 +39,12 @@ namespace DailyHealthReportZju.Services
                 driver = GetDriver(_config.Url);
                 // driver.Manage().Window.Minimize();  // This will disable the whole auto process
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
+
                 const string errorMessage =
-                @"Please close the previous chrome popup then restart this program.
+                @"Please close the previous chrome popup then restart this program (if possible).
                     If problem persists:
                         1. check if chrome is about to update;
                         2. update it.

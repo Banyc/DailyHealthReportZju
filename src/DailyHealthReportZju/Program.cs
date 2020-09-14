@@ -35,7 +35,7 @@ namespace DailyHealthReportZju
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", false)
-                .AddJsonFile("appsettings.secret.json", false)  // this config will overwrite the previous one if conflicting
+                .AddJsonFile("appsettings.secret.json", true)  // this config will overwrite the previous one if conflicting
                 .Build();
 
             serviceCollection.AddOptions();
