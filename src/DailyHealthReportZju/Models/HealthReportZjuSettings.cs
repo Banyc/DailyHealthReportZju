@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace DailyHealthReportZju
+namespace DailyHealthReportZju.Models
 {
     public enum DriverTypes
     {
