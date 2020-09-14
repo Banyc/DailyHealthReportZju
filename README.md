@@ -10,7 +10,8 @@ YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 
 ## Prerequisite
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1) to run C# code in three main platform
+- [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1) to run C# code in Linux/MacOs/Windows
+    - 这里多说一句：现在已经是 **0202** 年了，`.NET Framework` 不等于 `.NET Core`，后者是完美支持跨平台，`C#` 语言【支持】跨平台
 - [Chrome](https://www.google.com/intl/en-us/chrome/)
 - The [Chrome driver](https://chromedriver.chromium.org/downloads) that matches the version of Chrome
 
