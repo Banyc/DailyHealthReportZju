@@ -41,7 +41,7 @@ namespace DailyHealthReportZju.Services
                     options.AddArguments("--disable-geolocation");
 
                     // options.AddAdditionalCapability("pageLoadStrategy", "none");
-                    driver = new ChromeDriver(".", options);
+                    driver = new ChromeDriver(_config.PathToChromeDriver, options);
 
                     // hide the browser window
                     if (_config.IsFullAutoMode && !_config.IsHeadless)

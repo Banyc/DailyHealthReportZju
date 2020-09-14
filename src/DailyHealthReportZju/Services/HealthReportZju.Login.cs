@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using Microsoft.Extensions.Logging;
 
 namespace DailyHealthReportZju.Services
 {
@@ -21,6 +22,12 @@ namespace DailyHealthReportZju.Services
 
         private void OpenIdLogin(IWebDriver driver)
         {
+            if (string.IsNullOrEmpty(_usernameSelector) || string.IsNullOrEmpty(_passwordSelector))
+            {
+                const string errorMessage = "You didn't set up username or password in configuration file \"appsettings.json\". Please login manually and restart the program.";
+                _logger.LogError(errorMessage);
+                throw new Exception("Login required. " + errorMessage);
+            }
             var usernameControl = driver.FindElement(By.CssSelector(_usernameSelector));
             usernameControl.SendKeys(_config.Username);
             var passwordControl = driver.FindElement(By.CssSelector(_passwordSelector));

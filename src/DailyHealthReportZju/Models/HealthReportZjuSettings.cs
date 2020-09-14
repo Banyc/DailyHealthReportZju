@@ -25,6 +25,7 @@ namespace DailyHealthReportZju
         // Do NOT try Firefox that is not currently working.
         public DriverTypes DriverTypes { get; set; }
         public string FirefoxBrowserPath { get; set; }
+        public string PathToChromeDriver { get; set; }
         public string Url { get; set; }
         public int InitiationTimeoutInSeconds { get; set; }
         public int ElementDiscoveryTimeoutInSeconds { get; set; }
