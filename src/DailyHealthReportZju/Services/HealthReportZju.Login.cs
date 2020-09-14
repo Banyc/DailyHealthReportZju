@@ -22,6 +22,12 @@ namespace DailyHealthReportZju.Services
 
         private void OpenIdLogin(IWebDriver driver)
         {
+            if (!driver.Url.StartsWith("https://zjuam.zju.edu.cn"))
+            {
+                const string errorMessage = "This page is not the verified authentication provider, thus is not trusted. The process ends. Do not enter your password in this page!";
+                _logger.LogError(errorMessage);
+                throw new Exception("Invalid authentication provider. " + errorMessage);
+            }
             if (string.IsNullOrEmpty(_usernameSelector) || string.IsNullOrEmpty(_passwordSelector))
             {
                 const string errorMessage = "You didn't set up username or password in configuration file \"appsettings.json\". Please login manually and restart the program.";
