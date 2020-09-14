@@ -8,6 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using Microsoft.Extensions.Logging;
 
 namespace DailyHealthReportZju.Services
 {
@@ -140,9 +141,10 @@ namespace DailyHealthReportZju.Services
                 IWebElement local = driver.FindElement(By.CssSelector(selector));
                 local.Click();
             }
-            catch (NoSuchElementException)
+            catch (NoSuchElementException ex)
             {
-                Console.WriteLine("[Info] Geometry seems to be succeeded");
+                _logger.LogDebug(ex.Message);
+                _logger.LogInformation("[Info] Geometry seems to be succeeded");
             }
             finally
             {
@@ -159,10 +161,19 @@ namespace DailyHealthReportZju.Services
             string selector = "body > div.item-buydate.form-detail2 > div:nth-child(1) > div > section > div.list-box > div > a";
             IWebElement submit = driver.FindElement(By.CssSelector(selector));
             submit.Click();
-            // confirm
-            selector = "#wapcf > div > div.wapcf-btn-box > div.wapcf-btn.wapcf-btn-ok";
-            IWebElement confirm = driver.FindElement(By.CssSelector(selector));
-            confirm.Click();
+            try
+            {
+                // confirm
+                selector = "#wapcf > div > div.wapcf-btn-box > div.wapcf-btn.wapcf-btn-ok";
+                IWebElement confirm = driver.FindElement(By.CssSelector(selector));
+                confirm.Click();
+            }
+            catch (NoSuchElementException ex)
+            {
+                _logger.LogDebug(ex.Message);
+                const string warningMessage = "It seems that you have submit the health report today.";
+                _logger.LogWarning(warningMessage);
+            }
         }
     }
 }
