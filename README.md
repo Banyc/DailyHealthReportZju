@@ -35,13 +35,14 @@ After that:
 
 - run the APP and login with your account in the Chrome pop-up manually.
     - Then, close the browser and run the program again.
-- OR set your `Username` and `Password` in file `appsettings` before running the APP
+- OR set your `Username` and `Password` in file `appsettings.secret.json` before running the APP
 
 And then please follow the instruction in console to complete your geometric information.
 
 ## Customize
 
-1. Go to file `appsettings` and set field `IsFullAutoMode` to be false;
+1. Make a copy of `appsettings.json` and name it `appsettings.secret.json`;
+1. Go to file `appsettings.secret.json` and set field `IsFullAutoMode` to be false;
 1. check every item in that file;
     - check if every item in `KeyWords` meets your need
     - check if `PathToChromeDriver` is pointing to the Chrome driver you have downloaded
@@ -50,7 +51,7 @@ And then please follow the instruction in console to complete your geometric inf
             - audit the source code of the program;
             - or leave blank and login manually every time the cookies are expired.
 1. Run the program and check if everything goes as expected;
-1. If you want a full automation, go to `appsettings` and set field `IsFullAutoMode` to be `true`;
+1. If you want a full automation, go to `appsettings.secret.json` and set field `IsFullAutoMode` to be `true`;
 1. If you are annoyed by the pop-up of the Chrome browser, set `IsHeadless` to be `true`;
 
 ## TODO
