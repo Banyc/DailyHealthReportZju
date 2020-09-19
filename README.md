@@ -17,8 +17,24 @@ YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 
 ## Run
 
+### Windows/MacOS
+
 1. Download and install (except the Chrome driver) those prerequisites above;
 1. Customize the configuration file [appsettings](./src/DailyHealthReportZju/appsettings.json);
+1. Start a command line promote at the root of the project and type in the following lines:
+
+    ```shell
+    cd src/DailyHealthReportZju
+    dotnet restore
+    dotnet run
+
+    ```
+
+### Ubuntu/Debian
+
+1. run `sudo apt install chromium-chromedriver`
+1. Customize the configuration file [appsettings](./src/DailyHealthReportZju/appsettings.json)
+    - and setting the field `PathToChromeDriver` with `/usr/lib/chromium-browser`
 1. Start a command line promote at the root of the project and type in the following lines:
 
     ```shell
@@ -56,3 +72,6 @@ And then please follow the instruction in console to complete your geometric inf
 1. If you are annoyed by the pop-up of the Chrome browser, set `IsHeadless` to be `true`;
 
 ## TODO
+
+- [ ] Make a hosted and scheduled service for linux server
+<!-- - [ ] Multiple users -->
