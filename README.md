@@ -73,5 +73,5 @@ And then please follow the instruction in console to complete your geometric inf
 
 ## TODO
 
-- [ ] Make a hosted and scheduled service for linux server
+- [x] Make a hosted and scheduled service for linux server
 <!-- - [ ] Multiple users -->
