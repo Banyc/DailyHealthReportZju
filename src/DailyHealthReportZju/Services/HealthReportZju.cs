@@ -85,6 +85,10 @@ namespace DailyHealthReportZju.Services
                 _logger.LogInformation("[Info] Done.");
                 driver.Quit();
             }
+            else if (_config.IsHeadless)
+            {
+                driver.Quit();
+            }
         }
     }
 }
