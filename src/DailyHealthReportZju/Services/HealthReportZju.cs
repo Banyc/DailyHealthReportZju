@@ -83,6 +83,8 @@ namespace DailyHealthReportZju.Services
 
                 // process about to exit
                 _logger.LogInformation("[Info] Done.");
+                // wait until the form is posted
+                Task.Delay(TimeSpan.FromSeconds(3)).Wait();
                 driver.Quit();
             }
             else if (_config.IsHeadless)
