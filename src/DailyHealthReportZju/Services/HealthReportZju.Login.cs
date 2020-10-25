@@ -34,12 +34,13 @@ namespace DailyHealthReportZju.Services
                 _logger.LogError(errorMessage);
                 throw new Exception("Login required. " + errorMessage);
             }
+            driver.Manage().Window.Maximize();
             var usernameControl = driver.FindElement(By.CssSelector(_usernameSelector));
             usernameControl.SendKeys(_config.Username);
             var passwordControl = driver.FindElement(By.CssSelector(_passwordSelector));
             passwordControl.SendKeys(_config.Password);
-            var rememberMeControl = driver.FindElement(By.CssSelector(_rememberMeSelector));
-            rememberMeControl.Click();
+            // var rememberMeControl = driver.FindElement(By.CssSelector(_rememberMeSelector));
+            // rememberMeControl.Click();
             var submitControl = driver.FindElement(By.CssSelector(_submitSelector));
             submitControl.Click();
         }
