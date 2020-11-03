@@ -179,7 +179,7 @@ namespace DailyHealthReportZju.Services
             catch (NoSuchElementException ex)
             {
                 _logger.LogDebug(ex.Message);
-                const string warningMessage = "It seems that you have submit the health report today.";
+                const string warningMessage = "It seems that you have submitted the health report today.";
                 _logger.LogWarning(warningMessage);
             }
         }
