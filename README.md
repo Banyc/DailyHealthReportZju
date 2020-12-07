@@ -21,7 +21,7 @@ YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 
 1. Download and install (except the Chrome driver) those prerequisites above;
 1. Customize the configuration file [appsettings](./src/DailyHealthReportZju/appsettings.json);
-1. Start a command line promote at the root of the project and type in the following lines:
+1. Start a command line prompt at the root of the project and type in the following lines:
 
     ```shell
     cd src/DailyHealthReportZju
@@ -35,7 +35,7 @@ YOU TAKE YOUR OWN RISK BY USING OUR PRODUCT.
 1. run `sudo apt install chromium-chromedriver`
 1. Customize the configuration file [appsettings](./src/DailyHealthReportZju/appsettings.json)
     - and setting the field `PathToChromeDriver` with `/usr/lib/chromium-browser`
-1. Start a command line promote at the root of the project and type in the following lines:
+1. Start a command line prompt at the root of the project and type in the following lines:
 
     ```shell
     cd src/DailyHealthReportZju
