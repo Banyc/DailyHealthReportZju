@@ -11,7 +11,7 @@ dotnet publish -r "$Rid" --no-self-contained
 Set-Location ..
 
 # zip
-7z.exe a -tzip DailyHealthReportZju."$Rid".zip ./DailyHealthReportZju/bin/Debug/netcoreapp3.1/"$Rid"/publish/*
+7z.exe a -tzip DailyHealthReportZju."$Rid".zip ./DailyHealthReportZju/bin/Debug/net5.0/"$Rid"/publish/*
 Move-Item ./DailyHealthReportZju."$Rid".zip ..
 Set-Location ..
 dotnet restore
