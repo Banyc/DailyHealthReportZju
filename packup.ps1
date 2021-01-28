@@ -1,17 +1,16 @@
-$Rid = "linux-x64"
+# $Rid = "linux-x64"
 # $Rid = "linux-arm64"
-# $Rid = "linux-arm"
+$Rid = "linux-arm"
 # $Rid = "win-x64"
 # $Rid = "win-x86"
+$Project = "DailyHealthReportZju"
+$ShortName = $Project
+$ProjectDirectoryPath = "./src"
 
-Remove-Item ./DailyHealthReportZju."$Rid".zip
-Set-Location .\src
-Set-Location .\DailyHealthReportZju
-dotnet publish -r "$Rid" --no-self-contained
-Set-Location ..
+$ProjectPath = Join-Path -Path $ProjectDirectoryPath -ChildPath $Project
+
+Remove-Item ./$ShortName.$Rid.zip
+dotnet publish $ProjectPath -r $Rid --no-self-contained
 
 # zip
-7z.exe a -tzip DailyHealthReportZju."$Rid".zip ./DailyHealthReportZju/bin/Debug/net5.0/"$Rid"/publish/*
-Move-Item ./DailyHealthReportZju."$Rid".zip ..
-Set-Location ..
-dotnet restore
+Compress-Archive -Path $ProjectPath/bin/Debug/net5.0/$Rid/publish/* -DestinationPath ./$ShortName.$Rid.zip
