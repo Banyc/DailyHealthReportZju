@@ -30,6 +30,8 @@ jobs:
       run: dotnet publish src/DailyHealthReportZju -r linux-x64 --no-self-contained
     - name: publish linux-arm
       run: dotnet publish src/DailyHealthReportZju -r linux-arm --no-self-contained
+    - name: publish linux-arm64
+      run: dotnet publish src/DailyHealthReportZju -r linux-arm64 --no-self-contained
 
     - name: Upload DailyHealthReportZju win-x64 Build Artifact
       uses: actions/upload-artifact@v2
@@ -46,3 +48,8 @@ jobs:
       with:
         name: DailyHealthReportZju.linux-arm
         path: src/DailyHealthReportZju/bin/Debug/net5.0/linux-arm/publish/
+    - name: Upload DailyHealthReportZju linux-arm64 Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: DailyHealthReportZju.linux-arm64
+        path: src/DailyHealthReportZju/bin/Debug/net5.0/linux-arm64/publish/
