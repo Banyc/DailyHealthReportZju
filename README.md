@@ -1,6 +1,6 @@
 # DailyHealthReportZju
 
-Using Selenium to auto submit daily health report
+Using Selenium to submit daily health reports.
 
 ## Disclaimer
 
@@ -55,7 +55,7 @@ Go to the Action page of this repository for the latest binaries.
 
 ### Caution
 
-If this is the first time you run, please follow the instruction in "Customize" Section below. Do NOT set field `IsFullAutoMode` to be true.
+If this is the first time you run, please follow the instruction in the "Customize" Section below. Do NOT set the field `IsFullAutoMode` to be true.
 
 After that:
 
@@ -63,7 +63,7 @@ After that:
     - Then, close the browser and run the program again.
 - OR set your `Username` and `Password` in file `appsettings.secret.json` before running the APP
 
-And then please follow the instruction in console to complete your geometric information.
+And then, please follow the instruction in the console to complete your geometric information.
 
 ## Customize
 
@@ -75,12 +75,12 @@ And then please follow the instruction in console to complete your geometric inf
     - set up `Username` and `Password` fields
         - if you don't trust this APP, you could either:
             - audit the source code of the program;
-            - or leave blank and login manually every time the cookies are expired.
+            - or leave blank and log in manually every time the cookies are expired.
 1. Run the program and check if everything goes as expected;
-1. If you want a full automation, go to `appsettings.secret.json` and set field `IsFullAutoMode` to be `true`;
+1. If you want full automation, go to `appsettings.secret.json` and set the field `IsFullAutoMode` to be `true`;
 1. If you are annoyed by the pop-up of the Chrome browser, set `IsHeadless` to be `true`;
 
 ## TODO
 
-- [x] Make a hosted and scheduled service for linux server
+- [x] Make a hosted and scheduled service for Linux server
 <!-- - [ ] Multiple users -->
