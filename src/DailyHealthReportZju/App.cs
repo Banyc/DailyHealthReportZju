@@ -25,9 +25,9 @@ namespace DailyHealthReportZju
         public void Run()
         {
             _logger.LogInformation($"This is a console application for {_config.ConsoleTitle}");
+            _healthReportService.Start();
             if (!_config.IsHosted)
             {
-                _healthReportService.Start();
                 return;
             }
             int hourToTask = (_config.TriggeredHourUTC - DateTime.UtcNow.Hour + 24) % 24;
