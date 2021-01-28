@@ -17,11 +17,13 @@ namespace DailyHealthReportZju.Services
     {
         private readonly string _usernameSelector = "#username";
         private readonly string _passwordSelector = "#password";
-        private readonly string _rememberMeSelector = "#fm1 > div.login-info.row > div.col-lg-3.col-md-3.col-sm-3.col-xs-4.remember-me > label";
         private readonly string _submitSelector = "#dl";
 
         private void OpenIdLogin(IWebDriver driver)
         {
+            var windowSize = driver.Manage().Window.Size;
+            driver.Manage().Window.Maximize();
+
             if (!driver.Url.StartsWith("https://zjuam.zju.edu.cn"))
             {
                 const string errorMessage = "This page is not the verified authentication provider, thus is not trusted. The process ends. Do not enter your password in this page!";
@@ -43,6 +45,8 @@ namespace DailyHealthReportZju.Services
             // rememberMeControl.Click();
             var submitControl = driver.FindElement(By.CssSelector(_submitSelector));
             submitControl.Click();
+            // window restores down
+            driver.Manage().Window.Size = windowSize;
         }
     }
 }
