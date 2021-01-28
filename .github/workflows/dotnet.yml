@@ -1,0 +1,48 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    - name: publish win-x64
+      run: dotnet publish src/DailyHealthReportZju -r win-x64 --no-self-contained
+    - name: publish linux-x64
+      run: dotnet publish src/DailyHealthReportZju -r linux-x64 --no-self-contained
+    - name: publish linux-arm
+      run: dotnet publish src/DailyHealthReportZju -r linux-arm --no-self-contained
+
+    - name: Upload DailyHealthReportZju win-x64 Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: DailyHealthReportZju.win-x64
+        path: src/DailyHealthReportZju/bin/Debug/net5.0/win-x64/publish/
+    - name: Upload DailyHealthReportZju linux-x64 Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: DailyHealthReportZju.linux-x64
+        path: src/DailyHealthReportZju/bin/Debug/net5.0/linux-x64/publish/
+    - name: Upload DailyHealthReportZju linux-arm Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: DailyHealthReportZju.linux-arm
+        path: src/DailyHealthReportZju/bin/Debug/net5.0/linux-arm/publish/
